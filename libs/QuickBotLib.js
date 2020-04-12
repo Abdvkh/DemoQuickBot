@@ -22,7 +22,8 @@ function messageHandler(message) {
       let commands = getCommands();
       if (commands['aliases']) {
          Object.entries(commands['aliases']).forEach((key, value) => {
-            if (value.includes(message)) {
+            let aliases = value.split(',');
+            if (aliases.includes(message)) {
                let commandDetails = getCommand(key)
                return runCommand(commandDetails);
             }

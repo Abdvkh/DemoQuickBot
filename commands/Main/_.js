@@ -11,6 +11,4 @@ CMD*/
 
 
 //list of languages are being used for setup
-if(message){
-   QuickBotLib.messageHandler(message);
-}
+QuickBotLib.messageHandler(message);

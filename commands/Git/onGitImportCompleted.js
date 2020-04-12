@@ -9,4 +9,4 @@
   aliases:
 CMD*/
 
-Bot.runCommand('/setup');
+Bot.runCommand('commands');

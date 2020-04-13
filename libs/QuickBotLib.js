@@ -22,6 +22,9 @@ function messageHandler(message) {
       let commands = getCommands();
       if (commands['aliases']) {
          Object.entries(commands['aliases']).forEach(([key, value]) => {
+            // TODO: delet the comments
+            // let key = entry[0];
+            // let value = entry[1];
             let aliases = value.split(',');
             if (aliases.includes(message) || key == message) {
                let commandDetails = getCommand(key)
@@ -35,7 +38,7 @@ function messageHandler(message) {
 function runCommand(commandDetails) {
    let msg = '';
 
-   Object.entries(commandDetails).forEach((key, value) => {
+   Object.entries(commandDetails).forEach(([key, value]) => {
       if (key) {
          if (key == 'text') {
             msg += value;

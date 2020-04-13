@@ -14,7 +14,7 @@ function setCommands(commandsObj) {
    let language = commandsObj['language'];
    let commands = commandsObj['commands'];
    if (language) {
-      langCode = language;
+      langCode += language;
       LangLib.setDefaultLanguage(language);
    }
    Bot.setProperty(LIB_PREFIX + langCode + 'Commands', commands, 'Object');

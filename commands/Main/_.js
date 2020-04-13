@@ -9,6 +9,4 @@
   aliases:
 CMD*/
 
-
-//list of languages are being used for setup
-QuickBotLib.messageHandler(message);
+QuickBotLib.handleMessage(message);

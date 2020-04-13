@@ -11,4 +11,4 @@ var commands = {
    }
 }
 
-QuickBotLib.setCommands(commands);
+QuickBotLib.setCommands({commands: commands, language: 'en'});

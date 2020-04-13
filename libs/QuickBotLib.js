@@ -1,11 +1,32 @@
 let LIB_PREFIX = 'QuickBotLib_'
+let LangLib = getLangLib();
+
+function getLangLib() {
+   let LangLib = Libs.Lang;
+   if (!LangLib) {
+      throw new Error("Please install LangLib for using QuickBotLib");
+   }
+   return LangLib;
+}
 
 function setCommands(commandsObj) {
-   Bot.setProperty(LIB_PREFIX + 'Commands', commandsObj, 'Object');
+   let langCode = '';
+   let language = commandsObj['language'];
+   let commands = commandsObj['commands'];
+   if (language) {
+      langCode = language;
+      LangLib.setDefaultLanguage(language);
+   }
+   Bot.setProperty(LIB_PREFIX + langCode + 'Commands', commands, 'Object');
 }
 
 function getCommands() {
-   return Bot.getProperty(LIB_PREFIX + 'Commands');
+   let langCode = '';
+   let curLang = LangLib.user.getCurLang();
+   if (curLang) {
+      langCode = curLang;
+   }
+   return Bot.getProperty(LIB_PREFIX + langCode + 'Commands');
 }
 
 function getCommand(commandName) {
@@ -17,21 +38,17 @@ function getCommand(commandName) {
    return {error: 'There is no command or command is not defined'};
 }
 
-function messageHandler(message) {
-   if(message) {
-      let commands = getCommands();
-      if (commands['aliases']) {
-         Object.entries(commands['aliases']).forEach(([key, value]) => {
-            // TODO: delet the comments
-            // let key = entry[0];
-            // let value = entry[1];
-            let aliases = value.split(',');
-            if (aliases.includes(message) || key == message) {
-               let commandDetails = getCommand(key)
-               return runCommand(commandDetails);
-            }
-         });
-      }
+function handleMessage(message) {
+   if(!message) {return ;}
+   let commands = getCommands();
+   if (commands['aliases']) {
+      Object.entries(commands['aliases']).forEach(([key, value]) => {
+         let aliases = value.split(',');
+         if (aliases.includes(message) || key == message) {
+            let commandDetails = getCommand(key)
+            return runCommand(commandDetails);
+         }
+      });
    }
 }
 
@@ -39,12 +56,10 @@ function runCommand(commandDetails) {
    let msg = '';
 
    Object.entries(commandDetails).forEach(([key, value]) => {
-      if (key) {
-         if (key == 'text') {
-            msg += value;
-         } else if (key == 'photo' && commandDetails['photo']['url']) {
-            msg = '[​](' + value['url'] + ')'
-         }
+      if (key == 'text') {
+         msg += value;
+      } else if (key == 'photo' && commandDetails['photo']['url']) {
+         msg = '[​](' + value['url'] + ')'
       }
    });
 
@@ -53,5 +68,5 @@ function runCommand(commandDetails) {
 
 publish({
    setCommands: setCommands,
-   messageHandler: messageHandler,
+   handleMessage: handleMessage,
 })

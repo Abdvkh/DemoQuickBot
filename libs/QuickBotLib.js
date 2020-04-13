@@ -1,5 +1,4 @@
 let LIB_PREFIX = 'QuickBotLib_'
-let LangLib = getLangLib();
 
 function getLangLib() {
    let LangLib = Libs.Lang;
@@ -10,6 +9,7 @@ function getLangLib() {
 }
 
 function setCommands(commandsObj) {
+   let LangLib = getLangLib();
    let langCode = '';
    let language = commandsObj['language'];
    let commands = commandsObj['commands'];
@@ -21,6 +21,7 @@ function setCommands(commandsObj) {
 }
 
 function getCommands() {
+   let LangLib = getLangLib();
    let langCode = '';
    let curLang = LangLib.user.getCurLang();
    if (curLang) {

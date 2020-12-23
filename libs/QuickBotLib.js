@@ -44,7 +44,7 @@ function handleMessage(message) {
    if (commands['aliases']) {
       Object.entries(commands['aliases']).forEach(([key, value]) => {
          let aliasesWithoutSpaces = value.split(" ,").join(",").split(", ").join(",");//getting rid of spaces
-         aliases = aliasesWithoutSpaces.split(',');
+         let aliases = aliasesWithoutSpaces.split(',');
          if (aliases.includes(message) || key == message) {
             let commandDetails = getCommand(key)
             return runCommand(commandDetails);
